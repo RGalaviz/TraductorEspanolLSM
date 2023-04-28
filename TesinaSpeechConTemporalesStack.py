@@ -8,60 +8,99 @@ nlp = spacy.load("es_core_news_sm")
 nltk.download('punkt')
 from nltk.tree import Tree
 
+"DET N V P DET L"
+"NP VP"
+"DET N V "
 MY_GRAMMAR = """
     S -> VP | VP NP | NP VP | NP V
-    NP -> DET N | ADJ NP | N | PRON | NP PP | 
-    VP -> V NP | V NP PP | VP ADV | ADJ VP | V ADV | VP TIEM | V TIEM
-    PP -> P NP
-    ADJ -> 'grande' | 'pequeño' | 'alto' | 'bajo' | 'suave' | 'fino' | 'áspero' | 'azul' | 'amarillo' | 'café' | 'gris' | 'negro' | 'naranja' | 'rojo' | 'morado' | 'verde' | 'rosa' | 'oscuro' | 'claro'
-    DET -> 'el' | 'la' | 'los' | 'las' | 'su'
-    N -> 'perro' | 'gato' | 'casa' | 'coche' | 'comida' | 'niño' | 'hombre' | 'mujer' | 'cosa' | 'pelo' | 'ojos' | 'nariz' | 'boca' | 'oreja' | 'frente' | 'cabeza' | 'ceja' | 'brazo' | 'dedos' | 'manos' | 'pecho' | 'abdomen' | 'pies' | 'cerebro' | 'lengua' | 'corazón' | 'pulmones' | 'hígado' | 'riñones' | 'intestinos' | 'apéndice' | 'vagina' | 'ovarios' | 'pene' | 'testículos' | 'barba' | 'bigote'
+    NP -> DET N | ADJ NP | N | PRON | NP PP | L | DET L | P | P NP | P TIEM
+    VP -> V NP | V NP PP | VP ADV | ADJ VP | V ADV | VP TIEM | V TIEM 
+    PP -> P NP 
+    ADJ -> "cero" | "uno" | "dos" | "tres" | "cuatro" | "cinco" | "seis" | "siete" | "ocho" | "nueve" | "diez" | "once" | "doce" | "trece" | "catorce" | "quince" | "dieciséis" | "diecisiete" | "dieciocho" | "diecinueve" | "veinte" | "treinta" | "cuarenta" | "cincuenta" | "sesenta" | "setenta" | "ochenta" | "noventa" | "cien" | "doscientos" | "trescientos" | "cuatrocientos" | "quinientos" | "seiscientos" | "setecientos" | "ochocientos" | "novecientos" | "mil" | "diez mil" | "cien mil" | "un millón" | 'chaparro' | 'gordo' | 'flaco' | 'guapo' | 'feo' | 'rubio' | 'moreno' | 'pelirrojo' | 'pecoso' | 'grande' | 'pequeño' | 'alto' | 'bajo' | 'sobre'| 'abajo' | 'adentro' | 'afuera' | 'enfrente' | 'atrás' | 'esférico' | 'plano' |'suave' | 'fino' | 'áspero' | 'azul' | 'amarillo' | 'café' | 'gris' | 'negro' | 'naranja' | 'rojo' | 'morado' | 'verde' | 'rosa' | 'oscuro' | 'claro'
+    DET -> 'el' | 'la' | 'los' | 'las' | 'su' | 'mi'
+    N -> 'mes' | 'pelo' | 'ojos' | 'nariz' | 'boca' | 'oreja' | 'frente' | 'cabeza' | 'ceja' | 'hombro' | 'brazo' | 'dedos' | 'manos' | 'pecho' | 'abdomen' | 'pies' | 'cerebro' | 'lengua' | 'corazon' | 'pulmones' | 'higado' | 'riñones' | 'intestino' | 'apendice' | 'vagina' | 'ovarios' | 'pene' | 'testiculos' | 'barba' | 'bigote' | "maestro" | "mesero" | "arquitecto" | "doctor" | "ingeniero" | "abogado" | "psicologo" | "empresario" | "policia" | "soldador" | "enfermero" | "carpintero" | "carro" | "pelota" | "telefono" | "dinero" | "ropa" | "juguete" | "plato" | "estufa" | "bicicleta" | "jabon" | "sacapuntas" | "llave" | "espejo" | "computadora" | "papel" | "zapato" | "mesa" | "silla" | "sombrero" | "tenis" | "puerta" | "calceta" | "cuaderno" | "lapiz" | "toalla" | "vaso" | "pluma" |  'hombre' | 'mujer' | 'sobrino' | 'suegro' | 'compadre' | 'ahijado' | 'amante' | 'abuelo' | 'hijo' | 'primo' | 'nuera' | 'comadre' | 'novio' | 'soltero' | 'papá' | 'nieto' | 'hermano' | 'yerno' | 'padrino' | 'padrastro' | 'casado' | 'mamá' | 'tio' | 'cuñado' | 'madrina' | 'madrastra' | 'esposo' | 'viudo'
+    L -> 'parque' | 'cine' | 'escuela' | 'biblioteca' | 'oficina' | 'casa' | 'baño' | 'salon' | 'calle' | 'laguna' | 'presa' | 'mar' | 'alberca' | 'campo' | 'fabrica' | 'restaurante' | 'tienda' | 'museo' | 'iglesia' | 'hospital' | 'centro'
     V -> 'ejercitar' | 'trabajar' | 'dormir' | 'comer' | 'bailar' | 'estudiar' | 'visitar' | 'caminar' | 'correr' | 'saltar' | 'dibujar' | 'escribir' | 'leer' | 'criticar' | 'bañar' | 'pelear' | 'discutir' | 'dialogar' | 'ordenar' | 'hacer' | 'cocinar' | 'beber' | 'jugar' | 'ver' | 'llamar' | 'robar' | 'esconder' | 'comprar' | 'lavar' | 'limpiar' | 'poner' | 'quitar' | 'cambiar' | 'avisar' | 'ganar' | 'perder' | 'esperar' | 'ir' | 'preparar' | 'tirar' | 'salvar' | 'escapar'    
     P -> 'a' | 'de' | 'en' | 'con' | 'por'
-    ADV -> 'bien' | 'mal' | 'rápido' | 'lentamente' | 'siempre' | 'nunca' 
+    ADV -> 'bien' | 'mal' | 'rápido' | 'lentamente' | 'siempre' | 'nunca'  | 'fuerte' | 'débil'
     PRON -> 'yo' | 'tú' | 'él' | 'ella' | 'nosotros' | 'ellos' | 'ustedes' | 'mío' | 'tuyo' | 'suyo' | 'de ella' | 'de ellos' | 'nuestro' | 'de ustedes'
-    TIEM -> 'ayer' | 'hoy' | 'mañana' | 'antier' | 'futuro' | 'pasado' | 'ahorita' | 'ya' | 'acaba de pasar' | 'antiguo' | 'horario' | 'próximo' | 'en la mañana' | 'tarde' | 'noche' | 'nuevo' | 'viejo' | 'tiempo'
+    TIEM -> 'enero' | 'febrero' | 'marzo' | 'abril' | 'mayo' | 'junio' | 'julio' | 'agosto' | 'septiembre' | 'octubre' | 'noviembre' | 'diciembre' | 'semana' | 'lunes' | 'martes' | 'miercoles' | 'jueves' | 'viernes' | 'sabado' | 'domingo' | 'ayer' | 'hoy' | 'mañana' | 'antier' | 'futuro' | 'pasado' | 'ahorita' | 'ya' | 'acaba de pasar' | 'antiguo' | 'horario' | 'próximo' | 'en la mañana' | 'tarde' | 'noche' | 'nuevo' | 'viejo' | 'tiempo'
 """
 
 grammar = nltk.CFG.fromstring(MY_GRAMMAR)
 parser = nltk.ChartParser(grammar)
 terminals = set(rule.rhs()[0] for rule in grammar.productions() if len(rule.rhs()) == 1 and isinstance(rule.rhs()[0], str))
 
+def process_sentance(tokens,oracion):
+    try:
+        trees = list(parser.parse(tokens))
+        if not trees:
+            print("No se pudo reconocer con las reglas gramática.")
+            return oracion
+        else: 
+            return trees
+    except ValueError:
+        print("Error: ValueError. Se mandó algo con una palabra no en la gramática")
+        return oracion
 
 def modify_sentence(oracion):
     doc = nlp(oracion)
-
+    infinitive = None
     for token in doc:
         if token.pos_ == 'VERB':
             infinitive = token.lemma_
             break
     print("Infinitivo del verbo: ", infinitive)
-    # Reemplazamos el verbo en infinitivo en la oración
-    new_text = oracion.replace(token.text, infinitive)
+    if infinitive:
+        print("El infinitivo fue encontrado, reemplazaré el infinitivo en la frase original")
+        # Reemplazamos el verbo en infinitivo en la oración
+        oracion = oracion.replace(token.text, infinitive)
+        # Nueva oración a procesar
+        print("New oración-> ", oracion)
+        tokens = nltk.word_tokenize(oracion.lower(), language='spanish')
+        
+    else:
+        print("El infinitivo no fue encontrado, usaré la frase original")
+        tokens = nltk.word_tokenize(oracion.lower(), language='spanish')
+    
+    possibleResult = process_sentance(tokens,oracion)
 
-    # Nueva oración a procesar
-    print("New oración-> ", new_text)
+    if not isinstance(possibleResult,list):
+        return process_sentance(tokens,oracion)
+    else:
+        trees = possibleResult
 
-    tokens = nltk.word_tokenize(new_text.lower(), language='spanish')
-    try:
-        trees = list(parser.parse(tokens))
-        if not trees:
-            print("No se pudo reconocer con las reglas gramática.")
-            return new_text
-    except ValueError:
-        print("Error: ValueError. Se mandó algo con una palabra no en la gramática")
-        return new_text
+    tiempo = None
+    lugar = None
+    sustantivo = None
+    verbo = None
+
     tree = trees[0]
     new_tokens = []
     for subtree in tree.subtrees():
+        print("label actual ->  ", subtree.label())
         if subtree.label() == 'DET':
             continue
+        elif subtree.label() == 'TIEM' and subtree.leaves()[0] in ['ayer', 'hoy', 'mañana', 'antier', 'futuro', 'pasado', 'ahorita', 'ya', 'acaba de pasar', 'antiguo', 'horario', 'próximo', 'en la mañana', 'tarde', 'noche', 'nuevo', 'viejo', 'tiempo', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']:
+            print(subtree.leaves()[0])
+            tiempo = subtree.leaves()[0]
+        elif subtree.label() == 'L':
+            print(subtree.leaves()[0])
+            lugar = subtree.leaves()[0]
         elif subtree.label() == 'N':
-            new_tokens.append(subtree.leaves()[0])
+            print(subtree.leaves()[0])
+            sustantivo = subtree.leaves()[0]
         elif subtree.label() == 'V':
-            new_tokens.append(subtree.leaves()[0])
-        elif subtree.label() == 'TIEM' and subtree.leaves()[0] in ['ayer', 'hoy', 'mañana', 'antier', 'futuro', 'pasado', 'ahorita', 'ya', 'acaba de pasar', 'antiguo', 'horario', 'próximo', 'en la mañana', 'tarde', 'noche', 'nuevo', 'viejo', 'tiempo']:
-            new_tokens.append(subtree.leaves()[0])
+            verbo = subtree.leaves()[0]
+    # Generar resultado en orden "Tiempo LUGAR SUSTANTIVO VERBO"
+    new_tokens.append(tiempo)
+    new_tokens.append(lugar)
+    new_tokens.append(sustantivo)
+    new_tokens.append(verbo)
+
+    # Eliminar elementos nulos o vacíos de la lista
+    new_tokens = list(filter(None, new_tokens))
+
     return ' '.join(new_tokens)
 
 def listen_and_process():

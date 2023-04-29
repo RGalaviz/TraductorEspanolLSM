@@ -1,6 +1,9 @@
 import nltk
 import speech_recognition as sr
 import spacy
+import tkinter as tk
+import vlc
+import os
 
 nlp = spacy.load("es_core_news_sm")
 
@@ -8,13 +11,22 @@ nlp = spacy.load("es_core_news_sm")
 nltk.download('punkt')
 from nltk.tree import Tree
 
+# crear la ventana
+window = tk.Tk()
+window.geometry("500x500")
+
+# inicializar el reproductor de VLC
+instance = vlc.Instance()
+player = instance.media_player_new()
+media_list = vlc.MediaList()
+
 "DET N V P DET L"
 "NP VP"
 "DET N V "
 MY_GRAMMAR = """
-    S -> VP | VP NP | NP VP | NP V
-    NP -> DET N | ADJ NP | N | PRON | NP PP | L | DET L | P | P NP | P TIEM
-    VP -> V NP | V NP PP | VP ADV | ADJ VP | V ADV | VP TIEM | V TIEM 
+    S -> VP | VP NP | NP VP | NP V | NP ADJ
+    NP -> N ADJ | DET N | ADJ NP | N | PRON | NP PP | L | DET L | P | P NP | P TIEM 
+    VP -> V NP | V NP PP | VP NP ADJ | ADJ VP | V ADV | VP TIEM | V TIEM 
     PP -> P NP 
     ADJ -> "cero" | "uno" | "dos" | "tres" | "cuatro" | "cinco" | "seis" | "siete" | "ocho" | "nueve" | "diez" | "once" | "doce" | "trece" | "catorce" | "quince" | "dieciséis" | "diecisiete" | "dieciocho" | "diecinueve" | "veinte" | "treinta" | "cuarenta" | "cincuenta" | "sesenta" | "setenta" | "ochenta" | "noventa" | "cien" | "doscientos" | "trescientos" | "cuatrocientos" | "quinientos" | "seiscientos" | "setecientos" | "ochocientos" | "novecientos" | "mil" | "diez mil" | "cien mil" | "un millón" | 'chaparro' | 'gordo' | 'flaco' | 'guapo' | 'feo' | 'rubio' | 'moreno' | 'pelirrojo' | 'pecoso' | 'grande' | 'pequeño' | 'alto' | 'bajo' | 'sobre'| 'abajo' | 'adentro' | 'afuera' | 'enfrente' | 'atrás' | 'esférico' | 'plano' |'suave' | 'fino' | 'áspero' | 'azul' | 'amarillo' | 'café' | 'gris' | 'negro' | 'naranja' | 'rojo' | 'morado' | 'verde' | 'rosa' | 'oscuro' | 'claro'
     DET -> 'el' | 'la' | 'los' | 'las' | 'su' | 'mi'
@@ -73,6 +85,7 @@ def modify_sentence(oracion):
     tiempo = None
     lugar = None
     sustantivo = None
+    adjetivo = None
     verbo = None
 
     tree = trees[0]
@@ -90,18 +103,38 @@ def modify_sentence(oracion):
         elif subtree.label() == 'N':
             print(subtree.leaves()[0])
             sustantivo = subtree.leaves()[0]
+        elif subtree.label() == 'ADJ':
+            print(subtree.leaves()[0])
+            adjetivo = subtree.leaves()[0]
         elif subtree.label() == 'V':
             verbo = subtree.leaves()[0]
     # Generar resultado en orden "Tiempo LUGAR SUSTANTIVO VERBO"
     new_tokens.append(tiempo)
     new_tokens.append(lugar)
     new_tokens.append(sustantivo)
+    new_tokens.append(adjetivo)
     new_tokens.append(verbo)
 
     # Eliminar elementos nulos o vacíos de la lista
     new_tokens = list(filter(None, new_tokens))
 
     return ' '.join(new_tokens)
+
+# función para reproducir un video
+def play_video(video_path):
+    # crear el objeto media
+    media = instance.media_new(video_path)
+    # asignar la media al reproductor
+    player.set_media(media)
+    # reproducir el video
+    player.play()
+
+# función para reproducir la lista de videos
+def play_video_list(video_list):
+    # reproducir cada video de la lista
+    for video in video_list:
+        media = instance.media_new(video)
+        media_list.add_media(media)
 
 def listen_and_process():
     r = sr.Recognizer()
@@ -113,6 +146,15 @@ def listen_and_process():
         modified_sentence = modify_sentence(r.recognize_google(audio, language='es-ES'))
         if modified_sentence:
             print("La oración modificada es:", modified_sentence)
+            tokens = modified_sentence.split()
+            video_list = []
+            for token in tokens:
+                print("./videos/"+ token +".mp4")
+                video_list.append("./videos/"+token+".mp4")
+            # reproducir la lista de videos
+            play_video_list(video_list)
+            # iniciar el bucle de eventos de la ventana
+            window.mainloop()
         else:
             print("No se pudo modificar la oración.")
     except sr.UnknownValueError:

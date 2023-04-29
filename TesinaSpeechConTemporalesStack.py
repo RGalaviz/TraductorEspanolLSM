@@ -11,18 +11,14 @@ nlp = spacy.load("es_core_news_sm")
 nltk.download('punkt')
 from nltk.tree import Tree
 
-# crear la ventana
-window = tk.Tk()
-window.geometry("500x500")
 
 # inicializar el reproductor de VLC
-instance = vlc.Instance()
+instance = vlc.Instance(['--one-instance',"--playlist-enqueue","--fullscreen","--video-on-top","--video-x=1","--video-y=1","--no-video-deco"])
 player = instance.media_player_new()
 media_list = vlc.MediaList()
+# player.toggle_fullscreen()
+player.video_set_scale(0.5)
 
-"DET N V P DET L"
-"NP VP"
-"DET N V "
 MY_GRAMMAR = """
     S -> VP | VP NP | NP VP | NP V | NP ADJ
     NP -> N ADJ | DET N | ADJ NP | N | PRON | NP PP | L | DET L | P | P NP | P TIEM 
@@ -131,10 +127,18 @@ def play_video(video_path):
 
 # función para reproducir la lista de videos
 def play_video_list(video_list):
+    
     # reproducir cada video de la lista
     for video in video_list:
-        media = instance.media_new(video)
-        media_list.add_media(media)
+
+        
+        # reproducir el video actual
+        play_video(video)
+        # esperar a que termine el video
+        while player.get_state() != vlc.State.Ended:
+            continue
+    
+    
 
 def listen_and_process():
     r = sr.Recognizer()
@@ -153,8 +157,8 @@ def listen_and_process():
                 video_list.append("./videos/"+token+".mp4")
             # reproducir la lista de videos
             play_video_list(video_list)
-            # iniciar el bucle de eventos de la ventana
-            window.mainloop()
+
+            
         else:
             print("No se pudo modificar la oración.")
     except sr.UnknownValueError:

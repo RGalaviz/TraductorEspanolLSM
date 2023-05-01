@@ -26,7 +26,7 @@ MY_GRAMMAR = """
     PP -> P NP 
     ADJ -> "cero" | "uno" | "dos" | "tres" | "cuatro" | "cinco" | "seis" | "siete" | "ocho" | "nueve" | "diez" | "once" | "doce" | "trece" | "catorce" | "quince" | "dieciséis" | "diecisiete" | "dieciocho" | "diecinueve" | "veinte" | "treinta" | "cuarenta" | "cincuenta" | "sesenta" | "setenta" | "ochenta" | "noventa" | "cien" | "doscientos" | "trescientos" | "cuatrocientos" | "quinientos" | "seiscientos" | "setecientos" | "ochocientos" | "novecientos" | "mil" | "diez mil" | "cien mil" | "un millón" | 'chaparro' | 'gordo' | 'flaco' | 'guapo' | 'feo' | 'rubio' | 'moreno' | 'pelirrojo' | 'pecoso' | 'grande' | 'pequeño' | 'alto' | 'bajo' | 'sobre'| 'abajo' | 'adentro' | 'afuera' | 'enfrente' | 'atrás' | 'esférico' | 'plano' |'suave' | 'fino' | 'áspero' | 'azul' | 'amarillo' | 'café' | 'gris' | 'negro' | 'naranja' | 'rojo' | 'morado' | 'verde' | 'rosa' | 'oscuro' | 'claro'
     DET -> 'el' | 'la' | 'los' | 'las' | 'su' | 'mi'
-    N -> 'mes' | 'pelo' | 'ojos' | 'nariz' | 'boca' | 'oreja' | 'frente' | 'cabeza' | 'ceja' | 'hombro' | 'brazo' | 'dedos' | 'manos' | 'pecho' | 'abdomen' | 'pies' | 'cerebro' | 'lengua' | 'corazon' | 'pulmones' | 'higado' | 'riñones' | 'intestino' | 'apendice' | 'vagina' | 'ovarios' | 'pene' | 'testiculos' | 'barba' | 'bigote' | "maestro" | "mesero" | "arquitecto" | "doctor" | "ingeniero" | "abogado" | "psicologo" | "empresario" | "policia" | "soldador" | "enfermero" | "carpintero" | "carro" | "pelota" | "telefono" | "dinero" | "ropa" | "juguete" | "plato" | "estufa" | "bicicleta" | "jabon" | "sacapuntas" | "llave" | "espejo" | "computadora" | "papel" | "zapato" | "mesa" | "silla" | "sombrero" | "tenis" | "puerta" | "calceta" | "cuaderno" | "lapiz" | "toalla" | "vaso" | "pluma" |  'hombre' | 'mujer' | 'sobrino' | 'suegro' | 'compadre' | 'ahijado' | 'amante' | 'abuelo' | 'hijo' | 'primo' | 'nuera' | 'comadre' | 'novio' | 'soltero' | 'papá' | 'nieto' | 'hermano' | 'yerno' | 'padrino' | 'padrastro' | 'casado' | 'mamá' | 'tio' | 'cuñado' | 'madrina' | 'madrastra' | 'esposo' | 'viudo'
+    N -> 'mes' | 'pelo' | 'ojos' | 'nariz' | 'boca' | 'oreja' | 'frente' | 'cabeza' | 'ceja' | 'hombro' | 'brazo' | 'dedos' | 'manos' | 'pecho' | 'abdomen' | 'pies' | 'cerebro' | 'lengua' | 'corazon' | 'pulmones' | 'higado' | 'riñones' | 'intestino' | 'apendice' | 'vagina' | 'ovarios' | 'pene' | 'testiculos' | 'barba' | 'bigote' | "maestro" | "mesero" | "arquitecto" | "doctor" | "ingeniero" | "abogado" | "psicologo" | "empresario" | "policia" | "soldador" | "enfermero" | "carpintero" | "carro" | "pelota" | "telefono" | "dinero" | "ropa" | "juguete" | "plato" | "estufa" | "bicicleta" | "jabon" | "sacapuntas" | "llave" | "espejo" | "computadora" | "papel" | "zapato" | "mesa" | "silla" | "sombrero" | "tenis" | "puerta" | "calceta" | "cuaderno" | "lápiz" | "toalla" | "vaso" | "pluma" |  'hombre' | 'mujer' | 'sobrino' | 'suegro' | 'compadre' | 'ahijado' | 'amante' | 'abuelo' | 'hijo' | 'primo' | 'nuera' | 'comadre' | 'novio' | 'soltero' | 'papá' | 'nieto' | 'hermano' | 'yerno' | 'padrino' | 'padrastro' | 'casado' | 'mamá' | 'tio' | 'cuñado' | 'madrina' | 'madrastra' | 'esposo' | 'viudo'
     L -> 'parque' | 'cine' | 'escuela' | 'biblioteca' | 'oficina' | 'casa' | 'baño' | 'salon' | 'calle' | 'laguna' | 'presa' | 'mar' | 'alberca' | 'campo' | 'fabrica' | 'restaurante' | 'tienda' | 'museo' | 'iglesia' | 'hospital' | 'centro'
     V -> 'ejercitar' | 'trabajar' | 'dormir' | 'comer' | 'bailar' | 'estudiar' | 'visitar' | 'caminar' | 'correr' | 'saltar' | 'dibujar' | 'escribir' | 'leer' | 'criticar' | 'bañar' | 'pelear' | 'discutir' | 'dialogar' | 'ordenar' | 'hacer' | 'cocinar' | 'beber' | 'jugar' | 'ver' | 'llamar' | 'robar' | 'esconder' | 'comprar' | 'lavar' | 'limpiar' | 'poner' | 'quitar' | 'cambiar' | 'avisar' | 'ganar' | 'perder' | 'esperar' | 'ir' | 'preparar' | 'tirar' | 'salvar' | 'escapar'    
     P -> 'a' | 'de' | 'en' | 'con' | 'por'
@@ -44,12 +44,12 @@ def process_sentance(tokens,oracion):
         trees = list(parser.parse(tokens))
         if not trees:
             print("No se pudo reconocer con las reglas gramática.")
-            return oracion
+            return oracion , 1
         else: 
             return trees
     except ValueError:
         print("Error: ValueError. Se mandó algo con una palabra no en la gramática")
-        return oracion
+        return oracion, 1
 
 def modify_sentence(oracion):
     doc = nlp(oracion)
@@ -114,7 +114,7 @@ def modify_sentence(oracion):
     # Eliminar elementos nulos o vacíos de la lista
     new_tokens = list(filter(None, new_tokens))
 
-    return ' '.join(new_tokens)
+    return ' '.join(new_tokens) , 0
 
 # función para reproducir un video
 def play_video(video_path):
@@ -138,7 +138,6 @@ def play_video_list(video_list):
         while player.get_state() != vlc.State.Ended:
             continue
     
-    
 
 def listen_and_process():
     r = sr.Recognizer()
@@ -147,20 +146,30 @@ def listen_and_process():
         audio = r.listen(source)
     try:
         print("Google Speech Recognition cree que has dicho: " + r.recognize_google(audio, language='es-ES'))
-        modified_sentence = modify_sentence(r.recognize_google(audio, language='es-ES'))
-        if modified_sentence:
-            print("La oración modificada es:", modified_sentence)
-            tokens = modified_sentence.split()
-            video_list = []
+        modified_sentence, wasAcceptedByGrammar = modify_sentence(r.recognize_google(audio, language='es-ES'))
+        video_list = []
+        tokens = modified_sentence.split()
+        if wasAcceptedByGrammar==0:
+            print("La oración fue aceptada por la gramática : \"", modified_sentence + "\"")
             for token in tokens:
                 print("./videos/"+ token +".mp4")
                 video_list.append("./videos/"+token+".mp4")
             # reproducir la lista de videos
             play_video_list(video_list)
-
-            
         else:
-            print("No se pudo modificar la oración.")
+            print("No fue aceptada por la gramática, intentando deletrear y/o señas PALABRAS: "+ modified_sentence)
+
+            for word in tokens:
+                if os.path.exists("./videos/"+word.lower()+".mp4"):
+                    print("La palabra existe en los videos, reproduciendo el video de dicha palabra: "+word)
+                    video_list.append("./videos/"+word.lower()+".mp4")
+                else:
+                    print("La palabra no existe en los videos, deletreando..." + word)
+                    for char in word:
+                        print("./abc/"+ char.lower() +".mp4")
+                        video_list.append("./abc/"+char.lower()+".mp4")
+            #reproducir la lista de videos
+            play_video_list(video_list)
     except sr.UnknownValueError:
         print("Google Speech Recognition no pudo entender el audio.")
     except sr.RequestError as e:

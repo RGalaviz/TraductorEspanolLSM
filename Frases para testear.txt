@@ -1,8 +1,37 @@
-Frases de ejemplo
+Frases de ejemplo | Referencia
 
-Mi mama visitó el parque
-El maestro trabaja en la biblioteca
-el doctor visitará a la escuela
-en diciembre escribí en mi cuarderno
-en enero visitaré el parque
-mi pelo rojo
+Mi mama visitó el parque | pasado parque mamá visitar
+El maestro trabaja en la biblioteca | biblioteca maestro trabajar
+el doctor visitará a la escuela | Futuro escuela doctor visitar
+en diciembre escribí en mi cuarderno | pasado diciembre cuaderno yo escribir
+en enero visitaré el parque | futuro enero parque yo visitar
+mi pelo rojo | pelo mío rojo
+A mí me duele la cabeza | yo cabeza dolor
+Mi novia es flaca | novia mía flaca
+Mi abuelo es gordo | abuelo mio gordo
+A mi me gusta bailar todos los martes | todos martes yo bailar gustar
+El jueves mi mamá camina en el parque | Jueves mamá mía parque caminar | Jueves parque mamá mía caminar
+Mi tío trabaja de psicologo | Tío mío psicologo trabajar
+Mi hermana cumple años en Mayo | Mayo Hermana Mía Cumpleaños suyo
+A mi nieto le gusta dibujar casas | Nieto mío casa dibujar gustar | Nieto mío gustar casa dibujar
+Tengo cita médica el 20 de Febrero | 20 de Febrero Yo Cita Médica Tener | 20 de Febrero Yo Cita Médica Ir
+A mí me gusta leer libros viejos | libros viejos yo gustar leer | libros viejos yo leer gustar
+Mi papá y mi mamá se separaron ayer | ayer papá mío mamá mía separar 
+Yo juego en la escuela con una bonita pelota | Escuela Yo Pelota bonita jugar | Escuela pelota bonita yo jugar
+La estufa está adentro de la casa | casa estufa adentro | casa ahí estufa adentro
+Yo entré al cine temprano | cine temprano yo entrar | temprano cine yo entrar | cine yo entrar temprano | cine yo entrar temprano entrar
+Yo compré en la tienda comida | pasado tienda comida yo comprar |  
+Yo compro en la tienda comida | tienda comida yo comprar |
+Mi perro es pequeño | perro mío pequeño
+El carro de mi papá es grande | papá mío carro suyo grande
+Todos los Domingos voy a misa con mi abuela | todos Domingos misa abuela mía yo ir | 
+antier entraron a robar a mi casa | antier casa mía entrar robar
+Mi hermano estudia para abogado | hermano mío abogado él estudiar 
+El mesero me trajo de comer | mesero él comida traer yo | mesero él comida traer yo comer (direccionales)
+a mi me gusta nadar en la alberca | alberca yo nadar gustar
+a mi prima le gusta pasear en la laguna | laguna prima mia pasear gustar | laguna prima mia gustar pasear 
+mi abuelo es arquitecto | abuelo mío arquitecto
+mis amigos y yo fuimos a comer el miércoles en el restaurante | pasado miércoles restaurante amigos míos yo comer ir | pasado miércoles restaurante amigos míos yo ir comer 
+yo trabajo 40 horas a la semana | semana 30 horas yo trabajar
+el doctor me revisa el corazón y los pulmones | corazón pulmón mío doctor revisar
+el doctor me revisó el corazón y los pulmones | pasado corazón pulmón mío doctor revisar

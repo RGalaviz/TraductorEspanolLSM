@@ -1,23 +1,69 @@
 import nltk
+import tkinter as tk
+from threading import Thread
 import speech_recognition as sr
 import spacy
-import tkinter as tk
 import vlc
 import os
+# import our library
+import torchmetrics
+
+phrases = [
+    ["mi mamá visitó el parque", ["pasado parque mamá visitar"]],
+    ["el maestro trabaja en la biblioteca", ["biblioteca maestro trabajar"]],
+    ["el doctor visitará a la escuela", ["futuro escuela doctor visitar"]],
+    ["en diciembre escribí en mi cuaderno", ["pasado diciembre cuaderno yo escribir"]],
+    ["en enero visitaré el parque", ["futuro enero parque yo visitar"]],
+    ["mi pelo rojo", ["pelo mío rojo"]],
+    ["a mí me duele la cabeza", ["yo cabeza doler"]],
+    ["mi novia es flaca", ["novia mía flaca"]],
+    ["mi abuelo es gordo", ["abuelo mío gordo"]],
+    ["a mí me gusta bailar todos los martes", ["todos martes yo bailar gustar"]],
+    ["el jueves mi mamá camina en el parque", ["jueves mamá mía parque caminar", "jueves parque mamá mía caminar"]],
+    ["mi tío trabaja de psicólogo", ["tío mío psicólogo trabajar"]],
+    ["mi hermana cumple años en mayo", ["mayo hermana mía cumpleaños suyo"]],
+    ["a mi nieto le gusta dibujar casas", ["nieto mío casa dibujar gustar", "nieto mío gustar casa dibujar"]],
+    ["tengo cita médica el 20 de febrero", ["20 de febrero yo cita médica tener", "20 de febrero yo cita médica ir"]],
+    ["a mí me gusta leer libros viejos", ["libros viejos yo gustar leer", "libros viejos yo leer gustar"]],
+    ["mi papá y mi mamá se separaron ayer", ["ayer papá mío mamá mía separar"]],
+    ["yo juego en la escuela con una bonita pelota", ["escuela yo pelota bonita jugar", "escuela pelota bonita yo jugar"]],
+    ["la estufa está adentro de la casa", ["casa estufa adentro", "casa ahí estufa adentro"]],
+    ["yo entré al cine temprano", ["cine temprano yo entrar", "temprano cine yo entrar", "cine yo entrar temprano", "cine yo entrar temprano entrar"]],
+    ["yo compré en la tienda comida", ["pasado tienda comida yo comprar"]],
+    ["yo compro en la tienda comida", ["tienda comida yo comprar"]],
+    ["mi perro es pequeño", ["perro mío pequeño"]],
+    ["el carro de mi papá es grande", ["papá mío carro suyo grande"]],
+    ["todos los domingos voy a misa con mi abuela", ["todos domingos misa abuela mía yo ir"]],
+    ["antier entraron a robar a mi casa", ["antier casa mía entrar robar"]],
+    ["mi hermano estudia para abogado", ["hermano mío abogado él estudiar"]],
+    ["el mesero me trajo de comer", ["mesero él comida traer yo", "mesero él comida traer yo comer (direccionales)"]],
+    ["a mí me gusta nadar en la alberca", ["alberca yo nadar gustar"]],
+    ["a mi prima le gusta pasear en la laguna", ["laguna prima mía pasear gustar", "laguna prima mía gustar pasear"]],
+    ["mi abuelo es arquitecto", ["abuelo mío arquitecto"]],
+    ["mis amigos y yo fuimos a comer el miércoles en el restaurante", ["pasado miércoles restaurante amigos míos yo comer ir", "pasado miércoles restaurante amigos míos yo ir comer"]],
+    ["yo trabajo 40 horas a la semana", ["semana 40 horas yo trabajar"]],
+    ["el doctor me revisa el corazón y los pulmones", ["corazón pulmón mío doctor revisar"]],
+    ["el doctor me revisó el corazón y los pulmones", ["pasado corazón pulmón mío doctor revisar"]]
+]
+
+
+
+# Convertir la lista a un diccionario en minúsculas
+phrases_dict = {phrase[0]: phrase[1] for phrase in phrases}
+
+frase = "a mi me gusta nadar en la alberca"
+resultado = phrases_dict.get(frase)
+print(resultado)
 
 nlp = spacy.load("es_core_news_sm")
 
+# Crear ventana principal
+window = tk.Tk()
+window.title("Reconocimiento de voz")
+window.geometry("400x200")
 
 nltk.download('punkt')
 from nltk.tree import Tree
-
-
-# inicializar el reproductor de VLC
-instance = vlc.Instance(['--one-instance',"--playlist-enqueue","--fullscreen","--video-on-top","--video-x=1","--video-y=1","--no-video-deco"])
-player = instance.media_player_new()
-media_list = vlc.MediaList()
-# player.toggle_fullscreen()
-player.video_set_scale(0.5)
 
 MY_GRAMMAR = """
     S -> VP | VP NP | NP VP | NP V | NP ADJ
@@ -39,6 +85,48 @@ grammar = nltk.CFG.fromstring(MY_GRAMMAR)
 parser = nltk.ChartParser(grammar)
 terminals = set(rule.rhs()[0] for rule in grammar.productions() if len(rule.rhs()) == 1 and isinstance(rule.rhs()[0], str))
 
+# Función para identificar las categorías gramaticales de las palabras
+def categorize_words(sentence):
+    doc = nlp(sentence)
+    categories = {
+        "tiempo": [],
+        "lugar": [],
+        "sustantivo": [],
+        "adjetivo": [],
+        "verbo": [],
+        "posesivo": []
+    }
+
+    for token in doc:
+        if token.pos_ == "NOUN":
+            if token.dep_ == "poss":
+                categories["posesivo"].append(token.text)
+            else:
+                categories["sustantivo"].append(token.text)
+        elif token.pos_ == "ADJ":
+            categories["adjetivo"].append(token.text)
+        elif token.pos_ == "VERB":
+            categories["verbo"].append(token.text)
+        elif token.pos_ == "ADV" and "temp" in token.tag_:
+            categories["tiempo"].append(token.text)
+        elif token.pos_ == "ADV" and "loc" in token.tag_:
+            categories["lugar"].append(token.text)
+
+    return categories
+
+# Función para formar una nueva oración en base a las categorías
+def form_new_sentence(categories):
+    tiempo = " ".join(categories["tiempo"])
+    lugar = " ".join(categories["lugar"])
+    sustantivos = " ".join(categories["sustantivo"])
+    posesivos = " ".join(categories["posesivo"])
+    adjetivos = " ".join(categories["adjetivo"])
+    verbos = " ".join(categories["verbo"])
+
+    new_sentence = f"{tiempo} {lugar} {sustantivos} {posesivos} {adjetivos} {verbos}"
+    return new_sentence
+
+
 def process_sentance(tokens,oracion):
     try:
         trees = list(parser.parse(tokens))
@@ -54,11 +142,21 @@ def process_sentance(tokens,oracion):
 def modify_sentence(oracion):
     doc = nlp(oracion)
     infinitive = None
+    tiempo_verbo = None
     for token in doc:
         if token.pos_ == 'VERB':
+            print(token.morph.get('Tense'))
+            if token.morph.get('Tense') == ['Past']:
+                tiempo_verbo = 'past'
+            elif token.morph.get('Tense') == ['Fut']:
+                tiempo_verbo = 'future'
+            else:
+                tiempo_verbo = None
             infinitive = token.lemma_
             break
+    
     print("Infinitivo del verbo: ", infinitive)
+    print("Tiempo orignal del verbo: ", tiempo_verbo)
     if infinitive:
         print("El infinitivo fue encontrado, reemplazaré el infinitivo en la frase original")
         # Reemplazamos el verbo en infinitivo en la oración
@@ -78,6 +176,7 @@ def modify_sentence(oracion):
     else:
         trees = possibleResult
 
+    tiempoPrefijo = None
     tiempo = None
     lugar = None
     sustantivo = None
@@ -104,7 +203,15 @@ def modify_sentence(oracion):
             adjetivo = subtree.leaves()[0]
         elif subtree.label() == 'V':
             verbo = subtree.leaves()[0]
-    # Generar resultado en orden "Tiempo LUGAR SUSTANTIVO VERBO"
+    
+    print("Tiempo verbo: ", tiempo_verbo)
+    if tiempo_verbo == 'past':
+        tiempoPrefijo = 'pasado'
+    elif tiempo_verbo == 'future':
+        tiempoPrefijo = 'futuro'
+    print("Tiempo verbo: ", tiempo)
+    # Generar resultado en orden "TIEMPO LUGAR SUSTANTIVO ADJ VERBO"
+    new_tokens.append(tiempoPrefijo)
     new_tokens.append(tiempo)
     new_tokens.append(lugar)
     new_tokens.append(sustantivo)
@@ -114,10 +221,10 @@ def modify_sentence(oracion):
     # Eliminar elementos nulos o vacíos de la lista
     new_tokens = list(filter(None, new_tokens))
 
-    return ' '.join(new_tokens) , 0
+    return ' '.join(new_tokens), 0
 
 # función para reproducir un video
-def play_video(video_path):
+def play_video(video_path, player, instance):
     # crear el objeto media
     media = instance.media_new(video_path)
     # asignar la media al reproductor
@@ -126,38 +233,58 @@ def play_video(video_path):
     player.play()
 
 # función para reproducir la lista de videos
-def play_video_list(video_list):
-    
+def play_video_list(video_list,player,intance):
+    status_label.config(text="Reproduciendo...")
     # reproducir cada video de la lista
     for video in video_list:
-
-        
         # reproducir el video actual
-        play_video(video)
+        play_video(video, player,intance)
         # esperar a que termine el video
         while player.get_state() != vlc.State.Ended:
             continue
-    
+    player.stop()
+    player.release()
+
 
 def listen_and_process():
+    # inicializar el reproductor de VLC
+    instance = vlc.Instance(['--rate=1.2',"--playlist-enqueue","--fullscreen","--video-on-top","--video-x=1","--video-y=1","--no-video-deco"])
+    player = instance.media_player_new()
+    media_list = vlc.MediaList()
+    # player.toggle_fullscreen()
+    player.video_set_scale(0.5)
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Diga algo:")
         audio = r.listen(source)
     try:
         print("Google Speech Recognition cree que has dicho: " + r.recognize_google(audio, language='es-ES'))
+        frase = r.recognize_google(audio, language='es-ES')
         modified_sentence, wasAcceptedByGrammar = modify_sentence(r.recognize_google(audio, language='es-ES'))
         video_list = []
-        tokens = modified_sentence.split()
+        # tokens = modified_sentence.split()
         if wasAcceptedByGrammar==0:
+            tokens = modified_sentence.split()
             print("La oración fue aceptada por la gramática : \"", modified_sentence + "\"")
             for token in tokens:
                 print("./videos/"+ token +".mp4")
                 video_list.append("./videos/"+token+".mp4")
+            if(phrases_dict.get(frase)):
+                preds = modified_sentence
+                target = [phrases_dict.get(frase)]
+                ter = torchmetrics.TranslationEditRate()
+                print("TER CALCULADO", ter(preds, target))
             # reproducir la lista de videos
-            play_video_list(video_list)
+            play_video_list(video_list,player,instance)
+
         else:
             print("No fue aceptada por la gramática, intentando deletrear y/o señas PALABRAS: "+ modified_sentence)
+            
+            categories = categorize_words(modified_sentence)
+            new_sentence = form_new_sentence(categories)
+            print("NUEVA ORACIÓN ->" +new_sentence)
+            
+            tokens = new_sentence.split()
 
             for word in tokens:
                 if os.path.exists("./videos/"+word.lower()+".mp4"):
@@ -168,11 +295,36 @@ def listen_and_process():
                     for char in word:
                         print("./abc/"+ char.lower() +".mp4")
                         video_list.append("./abc/"+char.lower()+".mp4")
+            if(phrases_dict.get(frase)):
+                #Calcular el Translation Edit Rate 
+                preds = new_sentence
+                target = [phrases_dict.get(frase)]
+                ter = torchmetrics.TranslationEditRate()
+                print("TER CALCULADO", ter(preds, target))
+
             #reproducir la lista de videos
-            play_video_list(video_list)
+            play_video_list(video_list,player,instance)
+            
     except sr.UnknownValueError:
         print("Google Speech Recognition no pudo entender el audio.")
     except sr.RequestError as e:
         print("No se puede acceder al servicio de reconocimiento de voz de Google Speech Recognition; {0}".format(e))
 
-listen_and_process()
+    status_label.config(text="")
+
+# Función para manejar el evento de clic en el botón de micrófono
+def handle_microphone_button():
+    status_label.config(text="Escuchando...")
+    Thread(target=listen_and_process).start()
+    
+
+# Crear una etiqueta para mostrar el estado
+status_label = tk.Label(window, text="", font=("Arial", 16))
+status_label.pack(pady=20)
+
+# Crear un botón con el logo de un micrófono
+microphone_button = tk.Button(window, text="🎤", font=("Arial", 20), command=handle_microphone_button)
+microphone_button.pack(pady=20)
+
+# Iniciar el bucle principal de la ventana
+window.mainloop()

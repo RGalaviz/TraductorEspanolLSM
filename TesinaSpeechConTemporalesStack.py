@@ -359,6 +359,7 @@ def play_video(video_path, player, instance):
 # función para reproducir la lista de videos
 def play_video_list(video_list,player,intance):
     status_label.config(text="Reproduciendo...")
+    window.geometry("720x480")
     # reproducir cada video de la lista
     for video in video_list:
         # reproducir el video actual
@@ -368,6 +369,7 @@ def play_video_list(video_list,player,intance):
             continue
     player.stop()
     player.release()
+    window.geometry("400x200")
 
 
 def listen_and_process():
@@ -377,6 +379,8 @@ def listen_and_process():
     media_list = vlc.MediaList()
     # player.toggle_fullscreen()
     player.video_set_scale(0.5)
+    # Obtener el identificador de la ventana del reproductor
+    player.set_hwnd(frame.winfo_id())
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Diga algo:")
@@ -404,12 +408,13 @@ def listen_and_process():
         else:
             print("No fue aceptada por la gramática, intentando deletrear y/o señas PALABRAS: "+ modified_sentence)
             
-            categories = categorize_words(modified_sentence)
+            categories = categorize_words(modified_sentence.lower())
             new_sentence = form_new_sentence(categories)
             print("NUEVA ORACIÓN ->" +new_sentence)
-            
-            tokens = new_sentence.split()
-
+            if new_sentence:
+                tokens = new_sentence.split()
+            else:
+                tokens = modified_sentence.split()
             for word in tokens:
                 if os.path.exists("./videos/"+word.lower()+".mp4"):
                     print("La palabra existe en los videos, reproduciendo el video de dicha palabra: "+word)
@@ -449,6 +454,13 @@ status_label.pack(pady=20)
 # Crear un botón con el logo de un micrófono
 microphone_button = tk.Button(window, text="🎤", font=("Arial", 20), command=handle_microphone_button)
 microphone_button.pack(pady=20)
+
+# Crear un contenedor dentro de la ventana principal
+frame = tk.Frame(window)
+frame.pack(fill=tk.BOTH, expand=True)
+# Establecer una altura específica para el contenedor
+frame_height = 500
+frame.configure(height=frame_height)
 
 # Iniciar el bucle principal de la ventana
 window.mainloop()

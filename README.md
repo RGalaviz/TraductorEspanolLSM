@@ -27,7 +27,7 @@ Este archivo proporciona instrucciones sobre cómo ejecutar el código `TesinaSp
      python -m spacy download es_core_news_sm
      ```
 
-   - `vlc`: Para instalar la biblioteca VLC, puedes usar el siguiente comando:
+   - `vlc`: Para instalar la biblioteca VLC, puedes usar el siguiente comando, también recuerda instalar una versión del programa VLC en tu PC:
      ```
      pip install python-vlc
      ```

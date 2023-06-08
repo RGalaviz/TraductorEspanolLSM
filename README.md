@@ -1,4 +1,4 @@
-# Instrucciones para ejecutar TesinaSpeechConTemporalesStack.py
+# Instrucciones para ejecutar el programa
 
 Este archivo proporciona instrucciones sobre cómo ejecutar el código `TesinaSpeechConTemporalesStack.py` junto con las dependencias necesarias.
 

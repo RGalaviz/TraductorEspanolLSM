@@ -37,6 +37,11 @@ Este archivo proporciona instrucciones sobre cómo ejecutar el código `TesinaSp
      pip install torchmetrics
      ```
 
+   - `pyaudio`: Para instalar la biblioteca torchmetrics, puedes usar el siguiente comando:
+     ```
+     pip install pyaudio
+     ```
+
 2. Ejecución del código:
 
    - Abre una terminal en el directorio donde se encuentra el archivo `TesinaSpeechConTemporalesStack.py`.

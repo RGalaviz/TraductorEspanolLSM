@@ -46,6 +46,6 @@ Este archivo proporciona instrucciones sobre cómo ejecutar el código `TesinaSp
      python3 TesinaSpeechConTemporalesStack.py
      ```
 
-   - El programa se ejecutará y deberías ver la salida correspondiente en la terminal.
+   - El programa se ejecutará y deberías ver la salida correspondiente en la pantalla.
 
 ¡Eso es todo! Ahora puedes ejecutar el código `TesinaSpeechConTemporalesStack.py` siguiendo los pasos anteriores. Asegúrate de tener instaladas todas las dependencias mencionadas anteriormente.
